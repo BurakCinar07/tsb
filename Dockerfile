@@ -22,12 +22,11 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm install
+RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
 
-RUN chmod 755 /usr/src/app/user_data
 # Create a non-root user to run the application
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
     && mkdir -p /home/pptruser/Downloads \
@@ -46,4 +45,4 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 EXPOSE 8766
 
 # Command to run the application
-CMD ["node", "src/server.js", "-d", "user_data"]
+CMD ["node", "src/server.js", "-d", "tsb/user_data"]

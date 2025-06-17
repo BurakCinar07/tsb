@@ -6,7 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const {ChatOpenaiClient} = require("./site/client");
+const {ChatOpenaiClient} = require("./client");
 
 const {logger} = require("./logging");
 const _logger = logger.child({label: 'server'});
@@ -23,11 +23,8 @@ program
 program.parse();
 const options = program.opts();
 
-if (!options.dataDir) {
-    process.exit();
-}
 
-const client = new ChatOpenaiClient(options.dataDir);
+const client = new ChatOpenaiClient();
 
 const app = express();
 _logger.debug('Server: initialized');
